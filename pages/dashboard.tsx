@@ -1,6 +1,6 @@
-// The imports are now clean, with no duplicates.
+// Full corrected code for pages/dashboard.tsx
 import { useState, useEffect } from 'react';
-import { supabase } from './lib/supabaseClient';
+import { supabase } from '../lib/supabaseClient'; // CORRECTED PATH
 import AdminLayout from '../components/AdminLayout';
 
 function DashboardContent() {
@@ -44,7 +44,6 @@ function DashboardContent() {
   );
 }
 
-// This is the main export for the page
 export default function AdminDashboardPage() {
     return (
         <AdminLayout>
