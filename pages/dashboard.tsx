@@ -1,6 +1,5 @@
-// Full corrected code for pages/dashboard.tsx
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient'; // CORRECTED PATH
+import { supabase } from '../lib/supabaseClient';
 import AdminLayout from '../components/AdminLayout';
 
 function DashboardContent() {
@@ -24,21 +23,28 @@ function DashboardContent() {
   }, []);
 
   return (
+    // We remove the outer padding here because AdminLayout now handles it
     <div>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'white', borderBottom: '1px solid #374151', paddingBottom: '1rem' }}>
+      <h1 style={{ color: 'white', borderBottom: '1px solid #374151', paddingBottom: '1rem' }}>
         Admin Dashboard
       </h1>
-      <div style={{ marginTop: '2rem', display: 'flex', gap: '2rem' }}>
-        <div style={{ backgroundColor: '#1f2937', padding: '2rem', borderRadius: '12px', width: '300px' }}>
-          <h2 style={{ color: '#9ca3af', fontSize: '1rem', fontWeight: 'bold', margin: 0 }}>TOTAL REGISTERED USERS</h2>
-          {loading && <p>Loading...</p>}
-          {error && <p style={{ color: '#f87171' }}>Error: {error}</p>}
+
+      {/* Use the new responsive container for the cards */}
+      <div className="stats-container" style={{ marginTop: '2rem' }}>
+        <div className="stat-card">
+          <h2>TOTAL REGISTERED USERS</h2>
+          {loading && <p>...</p>}
+          {error && <p style={{ color: '#f87171', fontSize: '1.5rem' }}>Error</p>}
           {!loading && !error && (
-            <p style={{ color: '#10b981', fontSize: '3rem', fontWeight: 'bold', margin: '0.5rem 0 0 0' }}>
-              {userCount}
-            </p>
+            <p>{userCount}</p>
           )}
         </div>
+
+        {/* You can easily add more stat cards here in the future */}
+        {/* <div className="stat-card">
+          <h2>PENDING WITHDRAWALS</h2>
+          <p>3</p>
+        </div> */}
       </div>
     </div>
   );

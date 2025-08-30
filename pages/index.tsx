@@ -1,6 +1,5 @@
-// Full corrected code for pages/index.tsx
 import { useState } from 'react';
-import { supabase } from '../lib/supabaseClient'; // Corrected Path
+import { supabase } from '../lib/supabaseClient';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');

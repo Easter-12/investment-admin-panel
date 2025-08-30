@@ -14,3 +14,153 @@ a {
 * {
   box-sizing: border-box;
 }
+/* Add this to the bottom of your globals.css file */
+
+/* --- DEFINITIVE ADMIN PANEL RESPONSIVE FIX --- */
+
+/* Base style for the content area */
+.main-content {
+  width: 100%;
+  padding: 2rem;
+}
+
+/* Style for the mobile menu button */
+.mobile-menu-button {
+  display: none; /* Hidden on desktop */
+  background-color: #374151;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* --- MOBILE STYLES (Screen width 768px or less) --- */
+@media (max-width: 768px) {
+  /* Hide the sidebar */
+  .desktop-sidebar {
+    display: none;
+  }
+
+  /* Show the mobile menu button */
+  .mobile-menu-button {
+    display: block;
+  }
+
+  /* Make the content area take up the full width */
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* Adjust heading sizes for mobile */
+  h1 {
+    font-size: 1.8rem !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Make tables scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+/* Add this to the bottom of your globals.css file */
+
+/* --- DEFINITIVE ADMIN PANEL RESPONSIVE FIX --- */
+
+/* Base style for the content area */
+.main-content {
+  width: 100%;
+  padding: 2rem;
+}
+
+/* Style for the mobile menu button */
+.mobile-menu-button {
+  display: none; /* Hidden on desktop */
+  background-color: #374151;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* --- MOBILE STYLES (Screen width 768px or less) --- */
+@media (max-width: 768px) {
+  /* Hide the sidebar */
+  .desktop-sidebar {
+    display: none;
+  }
+
+  /* Show the mobile menu button */
+  .mobile-menu-button {
+    display: block;
+  }
+
+  /* Make the content area take up the full width */
+  .main-content {
+    padding: 1rem;
+  }
+
+  /* Adjust heading sizes for mobile */
+  h1 {
+    font-size: 1.8rem !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Make tables scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+/* Add this to the bottom of your globals.css file */
+
+/* --- DEFINITIVE ADMIN DASHBOARD RESPONSIVE FIX --- */
+
+/* Style for the container of the stat cards */
+.stats-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap to the next line on small screens */
+  gap: 2rem;
+}
+
+/* Style for an individual stat card */
+.stat-card {
+  background-color: #1f2937;
+  padding: 2rem;
+  border-radius: 12px;
+  flex-grow: 1; /* Allows cards to grow and fill space */
+  min-width: 250px; /* Ensures cards don't get too squished */
+}
+
+.stat-card h2 {
+  color: #9ca3af;
+  font-size: 1rem !important; /* Override the mobile h2 style */
+  font-weight: bold;
+  margin: 0;
+}
+
+.stat-card p {
+  color: #10b981;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0.5rem 0 0 0;
+}
+
+/* --- MOBILE STYLES (Screen width 768px or less) --- */
+@media (max-width: 768px) {
+  .stat-card p {
+    font-size: 2.5rem; /* Make the number slightly smaller on mobile */
+  }
+}
