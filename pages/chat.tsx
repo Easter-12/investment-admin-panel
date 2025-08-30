@@ -1,23 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../lib/supabaseClient'; // CORRECTED IMPORT
 import AdminLayout from '../components/AdminLayout';
 import styles from '../styles/AdminChat.module.css';
 
-// Supabase client is now created directly in this file
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-type UserConversation = { user_id: string; username: string; last_message_time: string; };
-type Message = { id: number; content: string | null; sent_by_admin: boolean; user_id: string; created_at: string; };
-
+// ... (The rest of the file is the same as the last correct version)
+type UserConversation = { user_id: string; username: string; last_message_time: string; }; type Message = { id: number; content: string | null; sent_by_admin: boolean; user_id: string; created_at: string; };
 function ChatContent() {
-  const [conversations, setConversations] = useState<UserConversation[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UserConversation | null>(null);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [newMessage, setNewMessage] = useState('');
-  const messagesEndRef = useRef<null | HTMLDivElement>(null);
-
+  const [conversations, setConversations] = useState<UserConversation[]>([]); const [selectedUser, setSelectedUser] = useState<UserConversation | null>(null); const [messages, setMessages] = useState<Message[]>([]); const [newMessage, setNewMessage] = useState(''); const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); };
   useEffect(() => { const fetchConversations = async () => { const { data } = await supabase.rpc('get_user_conversations'); if (data) setConversations(data); }; fetchConversations(); const channel = supabase.channel('public:messages').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, () => fetchConversations()).subscribe(); return () => { supabase.removeChannel(channel); }; }, []);
   useEffect(() => { if (!selectedUser) return; let channel: any; const fetchMessages = async () => { const { data } = await supabase.from('messages').select('*').eq('user_id', selectedUser.user_id).order('created_at'); setMessages(data || []); }; fetchMessages(); channel = supabase.channel(`admin-chat-for-user-${selectedUser.user_id}`).on('postgres_changes', { event: '*', schema: 'public', table: 'messages', filter: `user_id=eq.${selectedUser.user_id}` }, () => fetchMessages()).subscribe(); return () => { if (channel) supabase.removeChannel(channel); }; }, [selectedUser]);
@@ -25,52 +14,6 @@ function ChatContent() {
   const handleSendMessage = async (e: React.FormEvent) => { e.preventDefault(); const messageContent = newMessage.trim(); if (messageContent === '' || !selectedUser) return; const optimisticMessage: Message = { id: Date.now(), content: messageContent, sent_by_admin: true, user_id: selectedUser.user_id, created_at: new Date().toISOString() }; setMessages(current => [...current, optimisticMessage]); setNewMessage(''); await supabase.from('messages').insert({ user_id: selectedUser.user_id, content: messageContent, sent_by_admin: true }); };
   const handleDeleteMessage = async (messageId: number) => { setMessages(current => current.filter(msg => msg.id !== messageId)); await supabase.from('messages').delete().eq('id', messageId); };
   const isChatSelected = selectedUser !== null;
-
-  return (
-    <div className={styles.chatContainer}>
-      <div className={`${styles.sidebar} ${selectedUser ? styles.hidden : ''}`}>
-        <h2 className={styles.sidebarHeader}>Conversations</h2>
-        <div className={styles.conversationList}>
-          {conversations.map(conv => (
-            <div key={conv.user_id} onClick={() => setSelectedUser(conv)} className={`${styles.conversationItem} ${selectedUser?.user_id === conv.user_id ? styles.activeConversation : ''}`}>
-              <div className={styles.avatar}>{conv.username?.charAt(0).toUpperCase()}</div>
-              <div className={styles.conversationDetails}>
-                <p className={styles.conversationUsername}>{conv.username}</p>
-                <p className={styles.conversationTimestamp}>Last message: {new Date(conv.last_message_time).toLocaleString()}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-      {selectedUser && (
-        <div className={styles.chatWindow}>
-          <div className={styles.chatHeader}>
-            <button className={styles.backButton} onClick={() => setSelectedUser(null)}>←</button>
-            <h3>Chat with {selectedUser.username}</h3>
-          </div>
-          <div className={styles.messageArea}>
-            {messages.map(msg => (
-              <div key={msg.id} className={`${styles.messageWrapper} ${msg.sent_by_admin ? styles.adminMessage : styles.userMessage}`}>
-                <div className={`${styles.chatBubble} ${msg.sent_by_admin ? styles.adminBubble : styles.userBubble}`}>{msg.content}</div>
-                <button onClick={() => handleDeleteMessage(msg.id)} className={styles.deleteButton}>×</button>
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-          <form onSubmit={handleSendMessage} className={styles.form}>
-            <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type your reply..." className={styles.input} />
-            <button type="submit" disabled={!newMessage.trim()} className={styles.sendButton}>Send Reply</button>
-          </form>
-        </div>
-      )}
-    </div>
-  );
+  return ( <div className={styles.chatContainer}> <div className={`${styles.sidebar} ${selectedUser ? styles.hidden : ''}`}> <h2 className={styles.sidebarHeader}>Conversations</h2> <div className={styles.conversationList}> {conversations.map(conv => ( <div key={conv.user_id} onClick={() => setSelectedUser(conv)} className={`${styles.conversationItem} ${selectedUser?.user_id === conv.user_id ? styles.activeConversation : ''}`}> <div className={styles.avatar}>{conv.username?.charAt(0).toUpperCase()}</div> <div className={styles.conversationDetails}> <p className={styles.conversationUsername}>{conv.username}</p> <p className={styles.conversationTimestamp}>Last message: {new Date(conv.last_message_time).toLocaleString()}</p> </div> </div> ))} </div> </div> {selectedUser && ( <div className={styles.chatWindow}> <div className={styles.chatHeader}> <button className={styles.backButton} onClick={() => setSelectedUser(null)}>←</button> <h3>Chat with {selectedUser.username}</h3> </div> <div className={styles.messageArea}> {messages.map(msg => ( <div key={msg.id} className={`${styles.messageWrapper} ${msg.sent_by_admin ? styles.adminMessage : styles.userMessage}`}> <div className={`${styles.chatBubble} ${msg.sent_by_admin ? styles.adminBubble : styles.userBubble}`}>{msg.content}</div> <button onClick={() => handleDeleteMessage(msg.id)} className={styles.deleteButton}>×</button> </div> ))} <div ref={messagesEndRef} /> </div> <form onSubmit={handleSendMessage} className={styles.form}> <input type="text" value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type your reply..." className={styles.input} /> <button type="submit" disabled={!newMessage.trim()} className={styles.sendButton}>Send Reply</button> </form> </div> )} </div> );
 }
-
-export default function ChatPage() {
-    return (
-        <AdminLayout>
-            <ChatContent />
-        </AdminLayout>
-    );
-}
+export default function ChatPage() { return ( <AdminLayout> <ChatContent /> </AdminLayout> ); }

@@ -1,125 +1,35 @@
-/* ==========================================================================
-   Global Admin Styles
-   ========================================================================== */
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background-color: #111827;
-}
+/* Global Admin Styles */
+body { margin: 0; font-family: sans-serif; background-color: #111827; }
 
-/* ==========================================================================
-   Admin Layout & Mobile Menu
-   ========================================================================== */
-.main-content {
-  width: 100%;
-  padding: 2rem;
-}
-.mobile-menu-button {
-  display: none;
-  background-color: #374151;
-  color: white;
-  border: none;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
+/* Layout */
+.main-content { width: 100%; padding: 2rem; }
+.mobile-menu-button { display: none; background-color: #374151; color: white; border: none; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 1rem; cursor: pointer; }
 
-/* ==========================================================================
-   Dashboard Cards
-   ========================================================================== */
-.stats-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-.stat-card {
-  background-color: #1f2937;
-  padding: 1.5rem;
-  border-radius: 12px;
-  flex-grow: 1;
-  min-width: 250px;
-}
-.stat-card h2 {
-  color: #9ca3af;
-  font-size: 1rem !important;
-  font-weight: bold;
-  margin: 0;
-  text-transform: uppercase;
-}
-.stat-card p {
-  color: #10b981;
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 0.5rem 0 0 0;
-}
+/* Cards */
+.card { background-color: #1f2937; padding: 1.5rem; border-radius: 12px; }
+.stats-container { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.stat-card { background-color: #1f2937; padding: 1.5rem; border-radius: 12px; flex-grow: 1; min-width: 250px; }
+.stat-card h2 { color: #9ca3af; font-size: 1rem !important; font-weight: bold; margin: 0; text-transform: uppercase; }
+.stat-card p { color: #10b981; font-size: 2.5rem; font-weight: bold; margin: 0.5rem 0 0 0; }
 
-/* ==========================================================================
-   General Form Styles
-   ========================================================================== */
-.form-card {
-  background-color: #1f2937;
-  padding: 2rem;
-  border-radius: 12px;
-  margin-top: 2rem;
-}
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-.form-input {
-  padding: 0.75rem;
-  background-color: #374151;
-  border: 1px solid #4b5563;
-  border-radius: 8px;
-  color: white;
-  width: 100%;
-  box-sizing: border-box; /* Important for padding */
-}
-.form-button {
-  background-color: #10b981;
-  color: white;
-  font-weight: bold;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-}
+/* Tables */
+.table-container { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #374151; }
+th { color: #9ca3af; }
 
-/* ==========================================================================
-   DEFINITIVE MOBILE RESPONSIVE FIX (Applies to all pages)
-   ========================================================================== */
+/* Forms */
+.form-card { background-color: #1f2937; padding: 2rem; border-radius: 12px; margin-top: 2rem; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.form-input { padding: 0.75rem; background-color: #374151; border: 1px solid #4b5563; border-radius: 8px; color: white; width: 100%; box-sizing: border-box; }
+.form-button { background-color: #10b981; color: white; font-weight: bold; padding: 0.75rem; border-radius: 8px; border: none; cursor: pointer; }
+
+/* --- DEFINITIVE MOBILE FIX --- */
 @media (max-width: 768px) {
-  /* Hide the desktop sidebar */
-  .desktop-sidebar {
-    display: none;
-  }
-
-  /* Show the mobile menu button */
-  .mobile-menu-button {
-    display: block;
-  }
-
-  /* Reduce padding on the main content area */
-  .main-content {
-    padding: 1rem;
-  }
-
-  /* Adjust all heading sizes for mobile */
+  .desktop-sidebar { display: none; }
+  .mobile-menu-button { display: block; }
+  .main-content { padding: 1rem; }
   h1 { font-size: 1.8rem !important; }
   h2 { font-size: 1.5rem !important; }
-
-  /* Make ALL tables horizontally scrollable on mobile */
-  table {
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
-
-  /* Make stat card numbers smaller on mobile */
-  .stat-card p {
-    font-size: 2rem;
-  }
+  .stat-card p { font-size: 2rem; }
 }
