@@ -1,16 +1,16 @@
-// Full corrected code for pages/users.tsx
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient'; // CORRECTED PATH
+import { createClient } from '@supabase/supabase-js';
 import AdminLayout from '../components/AdminLayout';
+
+// Supabase client is now created directly in this file
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 type UserProfile = { id: string; created_at: string; username: string; referred_by: string | null; balance: number; withdrawal_wallet_address: string | null; };
 
 function UsersContent() {
-  const [users, setUsers] = useState<UserProfile[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [editingUser, setEditingUser] = useState<UserProfile | null>(null);
-  const [newBalance, setNewBalance] = useState('');
+  const [users, setUsers] = useState<UserProfile[]>([]); const [loading, setLoading] = useState(true); const [error, setError] = useState<string | null>(null); const [editingUser, setEditingUser] = useState<UserProfile | null>(null); const [newBalance, setNewBalance] = useState('');
   const fetchUsers = async () => { try { const { data, error } = await supabase.from('profiles').select('*'); if (error) throw error; if (data) setUsers(data); } catch (err: any) { setError(err.message); } finally { setLoading(false); } };
   useEffect(() => { fetchUsers(); }, []);
   const handleOpenEditModal = (user: UserProfile) => { setEditingUser(user); setNewBalance(user.balance.toString()); };
@@ -18,7 +18,7 @@ function UsersContent() {
   const handleUpdateBalance = async () => { if (!editingUser) return; try { const { error } = await supabase.from('profiles').update({ balance: parseFloat(newBalance) }).eq('id', editingUser.id); if (error) throw error; handleCloseEditModal(); fetchUsers(); } catch (err: any) { alert("Error updating balance: " + err.message); } };
 
   return (
-    <div>
+    <div style={{ padding: '4rem', color: 'white' }}>
       <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'white', borderBottom: '1px solid #374151', paddingBottom: '1rem' }}>Manage Users</h1>
       {loading && <p>Loading...</p>}
       {error && <p style={{color: '#f87171'}}>{error}</p>}

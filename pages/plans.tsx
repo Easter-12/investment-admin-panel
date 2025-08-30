@@ -1,20 +1,23 @@
-// Full corrected code for pages/plans.tsx
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient'; // CORRECTED PATH
+import { createClient } from '@supabase/supabase-js';
 import AdminLayout from '../components/AdminLayout';
 
-// ... (rest of the file is the same, but replace all to be safe)
+// Supabase client is now created directly in this file
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 type Plan = { id: number; name: string; min_deposit: number; max_deposit: number; duration_days: number; roi_percentage: number; };
+
 function PlansContent() {
-  const [plans, setPlans] = useState<Plan[]>([]);
-  const [name, setName] = useState(''); const [minDeposit, setMinDeposit] = useState(''); const [maxDeposit, setMaxDeposit] = useState(''); const [duration, setDuration] = useState(''); const [roi, setRoi] = useState('');
-  const [loading, setLoading] = useState(true); const [message, setMessage] = useState('');
+  const [plans, setPlans] = useState<Plan[]>([]); const [name, setName] = useState(''); const [minDeposit, setMinDeposit] = useState(''); const [maxDeposit, setMaxDeposit] = useState(''); const [duration, setDuration] = useState(''); const [roi, setRoi] = useState(''); const [loading, setLoading] = useState(true); const [message, setMessage] = useState('');
   const fetchPlans = async () => { setLoading(true); try { const { data, error } = await supabase.from('plans').select('*').order('created_at'); if (error) throw error; if (data) setPlans(data); } catch (err: any) { setMessage('Error: ' + err.message); } finally { setLoading(false); } };
   useEffect(() => { fetchPlans(); }, []);
   const handleCreatePlan = async (e: React.FormEvent) => { e.preventDefault(); setMessage(''); try { const { error } = await supabase.from('plans').insert({ name, min_deposit: parseFloat(minDeposit), max_deposit: parseFloat(maxDeposit), duration_days: parseInt(duration), roi_percentage: parseFloat(roi), }); if (error) throw error; setMessage('Plan created successfully!'); setName(''); setMinDeposit(''); setMaxDeposit(''); setDuration(''); setRoi(''); fetchPlans(); } catch (err: any) { setMessage('Error creating plan: ' + err.message); } };
   const handleDeletePlan = async (planId: number) => { if (window.confirm('Are you sure you want to delete this plan?')) { try { const { error } = await supabase.from('plans').delete().eq('id', planId); if (error) throw error; setMessage('Plan deleted successfully!'); fetchPlans(); } catch (err: any) { setMessage('Error deleting plan: ' + err.message); } } };
+
   return (
-    <div>
+    <div style={{ padding: '4rem', color: 'white' }}>
       <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'white', borderBottom: '1px solid #374151', paddingBottom: '1rem' }}>Manage Investment Plans</h1>
       <div style={{ backgroundColor: '#1f2937', padding: '2rem', borderRadius: '12px', marginTop: '2rem' }}>
         <h2 style={{marginTop: 0}}>Create New Plan</h2>
@@ -32,4 +35,5 @@ function PlansContent() {
     </div>
   );
 }
+
 export default function PlansPage() { return (<AdminLayout><PlansContent /></AdminLayout>); }

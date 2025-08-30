@@ -1,14 +1,14 @@
-// Full corrected code for pages/settings.tsx
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient'; // CORRECTED PATH
+import { createClient } from '@supabase/supabase-js';
 import AdminLayout from '../components/AdminLayout';
 
+// Supabase client is now created directly in this file
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 function SettingsContent() {
-  const [settingsId, setSettingsId] = useState<number | null>(null);
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState('');
+  const [settingsId, setSettingsId] = useState<number | null>(null); const [address, setAddress] = useState(''); const [phone, setPhone] = useState(''); const [loading, setLoading] = useState(true); const [message, setMessage] = useState('');
   useEffect(() => { const fetchSettings = async () => { setLoading(true); try { const { data, error } = await supabase.from('settings').select('*').limit(1).single(); if (error) throw error; if (data) { setAddress(data.company_address); setPhone(data.company_phone); setSettingsId(data.id); } } catch (err: any) { setMessage('Error fetching settings: ' + err.message); } finally { setLoading(false); } }; fetchSettings(); }, []);
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ function SettingsContent() {
     } catch (err: any) { setMessage('Error saving settings: ' + err.message); } finally { setLoading(false); }
   };
   return (
-    <div>
+    <div style={{ padding: '4rem', color: 'white' }}>
       <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', color: 'white', borderBottom: '1px solid #374151', paddingBottom: '1rem' }}>Site Settings</h1>
       <p style={{ color: '#9ca3af', marginTop: '1rem' }}>Update the information that appears in the public website's footer.</p>
       {loading ? (<p style={{ marginTop: '2rem' }}>Loading settings...</p>) : (

@@ -1,170 +1,74 @@
-/* Main container for the entire chat page */
 .chatContainer {
   display: flex;
-  height: calc(100vh - 4rem); /* Fill the available height */
+  height: calc(100vh - 4rem);
   color: white;
   background-color: #111827;
+  overflow: hidden; /* Prevent scrolling issues on mobile */
 }
 
-/* Sidebar for conversation list */
+/* --- Sidebar / Conversation List --- */
 .sidebar {
   width: 300px;
   border-right: 1px solid #374151;
   display: flex;
   flex-direction: column;
   background-color: #1f2937;
+  flex-shrink: 0; /* Prevent sidebar from shrinking */
 }
-.sidebarHeader {
-  padding: 1rem;
-  border-bottom: 1px solid #374151;
-  margin: 0;
-  font-size: 1.2rem;
-}
-.conversationList {
-  overflow-y: auto;
-  flex: 1;
-}
-.conversationItem {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  cursor: pointer;
-  border-bottom: 1px solid #374151;
-  transition: background-color 0.2s ease-in-out;
-}
-.conversationItem:hover {
-  background-color: #374151;
-}
-.activeConversation {
-  background-color: #3b82f6;
-}
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #4b5563;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  flex-shrink: 0;
-}
-.conversationDetails p {
-  margin: 0;
-}
-.conversationUsername {
-  font-weight: bold;
-  margin-bottom: 0.25rem;
-}
-.conversationTimestamp {
-  font-size: 0.8rem;
-  color: #9ca3af;
-}
+.sidebarHeader { padding: 1rem; border-bottom: 1px solid #374151; margin: 0; font-size: 1.2rem; }
+.conversationList { overflow-y: auto; flex: 1; }
+.conversationItem { display: flex; align-items: center; gap: 1rem; padding: 1rem; cursor: pointer; border-bottom: 1px solid #374151; transition: background-color 0.2s; }
+.conversationItem:hover { background-color: #374151; }
+.activeConversation { background-color: #3b82f6; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background-color: #4b5563; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; }
+.conversationDetails p { margin: 0; }
+.conversationUsername { font-weight: bold; margin-bottom: 0.25rem; }
+.conversationTimestamp { font-size: 0.8rem; color: #9ca3af; }
 
-/* Main chat window */
-.chatWindow {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.chatHeader {
-  padding: 1rem;
-  border-bottom: 1px solid #374151;
-  flex-shrink: 0;
-}
-.chatHeader h3 {
-  margin: 0;
-}
-.messageArea {
-  flex: 1;
-  padding: 1rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-}
-.messageWrapper {
-  display: flex;
-  margin-bottom: 1rem;
-  max-width: 70%;
-}
-.adminMessage {
-  justify-content: flex-end;
-  align-self: flex-end;
-}
-.userMessage {
-  justify-content: flex-start;
-  align-self: flex-start;
-}
-.chatBubble {
-  padding: 0.75rem 1rem;
-  border-radius: 18px;
-  color: white;
-}
-.adminBubble {
-  background-color: #10b981;
-  border-bottom-right-radius: 4px; /* Gives it a "tail" */
-}
-.userBubble {
-  background-color: #374151;
-  border-bottom-left-radius: 4px; /* Gives it a "tail" */
-}
-.deleteButton {
-  background: none;
-  border: none;
-  color: #6b7280;
-  cursor: pointer;
-  align-self: center;
-  margin: 0 0.5rem;
-  font-size: 1.2rem;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-.deleteButton:hover {
-  opacity: 1;
-}
+/* --- Main Chat Window --- */
+.chatWindow { flex: 1; display: flex; flex-direction: column; }
+.chatHeader { padding: 1rem; border-bottom: 1px solid #374151; flex-shrink: 0; display: flex; align-items: center; gap: 1rem; }
+.chatHeader h3 { margin: 0; }
+.messageArea { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; }
+.messageWrapper { display: flex; margin-bottom: 1rem; max-width: 70%; }
+.adminMessage { justify-content: flex-end; align-self: flex-end; }
+.userMessage { justify-content: flex-start; align-self: flex-start; }
+.chatBubble { padding: 0.75rem 1rem; border-radius: 18px; color: white; }
+.adminBubble { background-color: #10b981; border-bottom-right-radius: 4px; }
+.userBubble { background-color: #374151; border-bottom-left-radius: 4px; }
+.deleteButton { background: none; border: none; color: #6b7280; cursor: pointer; align-self: center; margin: 0 0.5rem; font-size: 1.2rem; opacity: 0.5; transition: opacity 0.2s; }
+.deleteButton:hover { opacity: 1; }
+.placeholder { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #6b7280; text-align: center; }
+.form { display: flex; padding: 1rem; border-top: 1px solid #374155; gap: 1rem; flex-shrink: 0; }
+.input { flex: 1; padding: 0.75rem; border: none; border-radius: 8px; background-color: #374151; color: white; }
+.sendButton { padding: 0.75rem 1.5rem; border: none; border-radius: 8px; background-color: #10b981; color: white; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+.sendButton:disabled { background-color: #4b5563; cursor: not-allowed; }
+.backButton { display: none; } /* Hide back button on desktop */
 
-/* Placeholder for when no chat is selected */
-.placeholder {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-  text-align: center;
-}
-
-/* Input form at the bottom */
-.form {
-  display: flex;
-  padding: 1rem;
-  border-top: 1px solid #374155;
-  gap: 1rem;
-  flex-shrink: 0;
-}
-.input {
-  flex: 1;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #374151;
-  color: white;
-}
-.sendButton {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #10b981;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.sendButton:hover {
-  background-color: #059669;
-}
-.sendButton:disabled {
-  background-color: #4b5563;
-  cursor: not-allowed;
+/* --- THIS IS THE GUARANTEED MOBILE FIX --- */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    /* Hide the sidebar if a conversation is selected */
+    display: var(--sidebar-display);
+  }
+  .chatWindow {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    /* Hide the chat window if no conversation is selected */
+    transform: translateX(var(--chat-window-transform));
+    transition: transform 0.3s ease-in-out;
+  }
+  .backButton {
+    display: block;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
 }
