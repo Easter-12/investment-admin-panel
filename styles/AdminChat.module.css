@@ -3,8 +3,8 @@
   height: calc(100vh - 4rem);
   color: white;
   background-color: #111827;
-  overflow: hidden; /* Prevent scrolling issues on mobile */
-  position: relative; /* Required for mobile layout */
+  position: relative; /* This is critical for mobile layout */
+  overflow: hidden;
 }
 
 /* --- Sidebar / Conversation List --- */
@@ -28,14 +28,14 @@
 .conversationTimestamp { font-size: 0.8rem; color: #9ca3af; }
 
 /* --- Main Chat Window --- */
-.chatWindow { flex: 1; display: flex; flex-direction: column; transition: transform 0.3s ease-in-out; }
+.chatWindow { flex: 1; display: flex; flex-direction: column; }
 .chatHeader { padding: 1rem; border-bottom: 1px solid #374151; flex-shrink: 0; display: flex; align-items: center; gap: 1rem; }
 .chatHeader h3 { margin: 0; }
 .messageArea { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; }
 .messageWrapper { display: flex; margin-bottom: 1rem; max-width: 70%; }
 .adminMessage { justify-content: flex-end; align-self: flex-end; }
 .userMessage { justify-content: flex-start; align-self: flex-start; }
-.chatBubble { padding: 0.75rem 1rem; border-radius: 18px; color: white; }
+.chatBubble { padding: 0.75rem 1rem; border-radius: 18px; color: white; word-wrap: break-word; }
 .adminBubble { background-color: #10b981; border-bottom-right-radius: 4px; }
 .userBubble { background-color: #374151; border-bottom-left-radius: 4px; }
 .deleteButton { background: none; border: none; color: #6b7280; cursor: pointer; align-self: center; margin: 0 0.5rem; font-size: 1.2rem; opacity: 0.5; transition: opacity 0.2s; }

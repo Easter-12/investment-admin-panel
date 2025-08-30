@@ -5,14 +5,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#111827' }}>
+      {/* --- Desktop Sidebar (hidden on mobile by CSS) --- */}
       <div className="desktop-sidebar">
         <Sidebar />
       </div>
 
-      {/* --- THIS IS THE GUARANTEED FIX --- */}
-      {/* We are adding the correct dark background color here */}
-      <main className="main-content" style={{ backgroundColor: '#111827' }}>
+      {/* --- Main Content Area --- */}
+      <main className="main-content">
+        {/* --- Mobile Menu Button (shown on mobile by CSS) --- */}
         <button 
           className="mobile-menu-button" 
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -20,12 +21,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ☰ Menu
         </button>
 
+        {/* --- Mobile Sidebar (only shown when button is clicked) --- */}
         {isSidebarOpen && (
           <div style={{marginBottom: '2rem'}}>
             <Sidebar />
           </div>
         )}
 
+        {/* This is where the page content goes */}
         {children}
       </main>
     </div>
