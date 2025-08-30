@@ -11,7 +11,6 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 type WithdrawalRequest = { id: number; created_at: string; user_id: string; amount: number; wallet_address: string; status: 'pending' | 'approved' | 'rejected'; profiles: { username: string; email: string; } };
 
 function WithdrawalsContent() {
-  // ... (rest of the component code is the same)
   const [requests, setRequests] = useState<WithdrawalRequest[]>([]); const [loading, setLoading] = useState(true); const [message, setMessage] = useState('');
   const fetchRequests = async () => { setLoading(true); try { const { data, error } = await supabase.from('withdrawals').select('*, profiles(username, email)').order('created_at', { ascending: false }); if (error) throw error; if (data) setRequests(data as WithdrawalRequest[]); } catch (err: any) { setMessage('Error: ' + err.message); } finally { setLoading(false); } };
   useEffect(() => { fetchRequests(); }, []);

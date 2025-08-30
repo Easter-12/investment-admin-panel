@@ -4,6 +4,7 @@
   color: white;
   background-color: #111827;
   overflow: hidden; /* Prevent scrolling issues on mobile */
+  position: relative; /* Required for mobile layout */
 }
 
 /* --- Sidebar / Conversation List --- */
@@ -13,7 +14,8 @@
   display: flex;
   flex-direction: column;
   background-color: #1f2937;
-  flex-shrink: 0; /* Prevent sidebar from shrinking */
+  flex-shrink: 0;
+  transition: transform 0.3s ease-in-out;
 }
 .sidebarHeader { padding: 1rem; border-bottom: 1px solid #374151; margin: 0; font-size: 1.2rem; }
 .conversationList { overflow-y: auto; flex: 1; }
@@ -26,7 +28,7 @@
 .conversationTimestamp { font-size: 0.8rem; color: #9ca3af; }
 
 /* --- Main Chat Window --- */
-.chatWindow { flex: 1; display: flex; flex-direction: column; }
+.chatWindow { flex: 1; display: flex; flex-direction: column; transition: transform 0.3s ease-in-out; }
 .chatHeader { padding: 1rem; border-bottom: 1px solid #374151; flex-shrink: 0; display: flex; align-items: center; gap: 1rem; }
 .chatHeader h3 { margin: 0; }
 .messageArea { flex: 1; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; }
@@ -49,20 +51,21 @@
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
-    border-right: none;
-    /* Hide the sidebar if a conversation is selected */
-    display: var(--sidebar-display);
+    height: 100%;
+    position: absolute;
+    transform: translateX(0); /* Default state: sidebar is visible */
+    z-index: 20;
   }
+  .sidebar.hidden {
+    transform: translateX(-100%); /* Slide sidebar off-screen to the left */
+  }
+
   .chatWindow {
     width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
     height: 100%;
-    /* Hide the chat window if no conversation is selected */
-    transform: translateX(var(--chat-window-transform));
-    transition: transform 0.3s ease-in-out;
+    position: absolute;
   }
+
   .backButton {
     display: block;
     background: none;
